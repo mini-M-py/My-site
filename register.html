@@ -10,54 +10,22 @@
 </head>
 
 <body>
-    <form class="form">
-        <label for="username">User name</label><br>
-        <input type="text" name="user_name" placeholder="username"><br>
-        <label for="email">Email</label><br>
-        <input type="text" name="email" placeholder="email"><br>
-        <label for="password">Password</label><br>
-        <input type="password" name="password" placeholder="password">
-        <button type="submit">Register</button>
-    </form>
-    <script>
-        const formEl = document.querySelector('.form');
-
-
-        formEl.addEventListener('submit', event => {
-            event.preventDefault();
-
-            const user = {
-                user_name: document.querySelector('input[name="user_name"]').value,
-                email: document.querySelector('input[name="email"]').value,
-                password: document.querySelector('input[name="password"]').value
-            }
-            console.log(user)
-            //const formData = new FormData(formEl)
-            //console.log(formData)
-            //const data = new URLSearchParams(user)
-
-            fetch('http://127.0.0.1:8000/user', {
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify(user)
-
-            }).then(res => {
-                if (res.status === 409) {
-                    alert('Email already register');
-                }
-                return res.json();
-            })
-                .then(data => {
-                    console.log('success')
-                    window.location.href = '/login.html';
-                })
-                .catch(error => console.log(error))
-        })
-
-
-    </script>
+    <form class="form1" id="form1">
+        <div id="username">
+            <label for="email">Email</label><br>
+            <input type="text" name="email" placeholder="email"><br>
+            <label for="username">User name</label><br>
+            <input type="text" name="user_name" placeholder="username"><br>
+            <label for="password">Password</label><br>
+            <input type="password" name="password" placeholder="password">
+            <div id="otp">
+                <input type="text" placeholder="OTP" id="otp_input" name="otp">
+                <button type="submit" id="send">Send</button>
+                <small  id="otp_text">click "send " to send email</small>
+            </div>
+        </div>    
+        <button id="button1" onclick="registered(event)">Register</button>
+    <script src="script.js"></script>
 </body>
 
 </html>

@@ -34,3 +34,21 @@ button:hover{
     background-color: skyblue;
     color: black;
 }
+
+#otp_input{
+    width: 20%;
+}
+#send{
+    width: 20%;
+}
+#otp_text{
+    border: solid;
+    border-radius: 4px;
+    color: red;
+}
+#username{
+    display:block;
+}
+#otp{
+    display: inline-block;
+}

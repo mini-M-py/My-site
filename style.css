@@ -20,11 +20,11 @@ body{
     text-decoration: none;
     text-align: center;
     text-transform: uppercase;
-    display: flex;
     float: left;
     padding: 14px 16px;
     font-size: auto;
-    display: flex;
+    width: 100%;
+    overflow: hidden;
    
 }
 .topnav{

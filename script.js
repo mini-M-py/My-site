@@ -1,7 +1,35 @@
-//const nameInput = document.getElementById("name");
-//const signinButton = document.getElementById("logIn");
-//const signupButton = document.getElementById("register");
+
+const notification = document.querySelector('.notification');
+const message = document.querySelector('#message');
+let timerId;
+
+
+function showNotificationWithDelay(messageText, delay) {
+  setTimeout(() => {
+    showNotification(messageText);
+  }, delay);
+}
+
+
+function showNotification(messageText) {
+  message.textContent = messageText;
+  notification.classList.add('active');
+  timerId = setTimeout(() => {
+    hideNotification();
+  }, 15000);
+}
+
+
+function hideNotification() {
+  notification.classList.remove('active');
+  clearTimeout(timerId);
+}
+
+
+showNotificationWithDelay('Budget is low, server is slow, it will take time to load', 2000);
+
 function login(event) {
+    
     let formEl = document.querySelector('.form');
 
     formEl.addEventListener('submit', event => {
@@ -19,7 +47,7 @@ function login(event) {
                     localStorage.setItem('token', data.access_token);
                     window.location.href = 'index.html';
                 } else {
-                    alert('Invalid eamil and password. Try again!')
+                    showNotificationWithDelay('Invalid eamil and password. Try again!', 1000);
                 }
             })
             .catch(error => console.log(error));
@@ -62,7 +90,7 @@ function registered(event) {
     formEl.addEventListener('submit', event => {
         event.preventDefault();
          if (!otpSent) {
-            alert("Please send OTP before registering.");
+            showNotificationWithDelay("Please send OTP before registering.", 1000);
             return;
          }
         const user = {
@@ -71,10 +99,7 @@ function registered(event) {
             password: document.querySelector('input[name="password"]').value,
             otp: document.querySelector('input[name="otp"]').value
         }
-        console.log(user)
-        //const formData = new FormData(formEl)
-        //console.log(formData)
-        //const data = new URLSearchParams(user)
+       
 
         fetch('https://mini-media.onrender.com/user', {
             method: 'POST',
@@ -85,13 +110,13 @@ function registered(event) {
 
         }).then(res => {
             if (res.status === 409) {
-                alert('Email already register');
+                showNotificationWithDelay('Email already register', 1000);
             }
             else if (res.status === 201) {
                 return res.json();
             }
             else {
-                alert('invalid credential, Try again!!!')
+                showNotificationWithDelay('invalid credential, Try again!!!', 1000)
             }
         })
             .then(data => {
@@ -124,10 +149,10 @@ function otp(event) {
     body: JSON.stringify(user)
   }).then(res => {
     if (res.status === 500) {
-      alert("Couldn't send email. Try again!!!");
+        showNotificationWithDelay("Couldn't send email. Try again!!!", 1000);
     }
     else if (res.status === 422){
-        alert("invalid credential")
+        showNotificationWithDelay("invalid credential", 1000);
     }
     return res.json();
   }).then(data => {
@@ -141,11 +166,11 @@ function register(event) {
   event.preventDefault();
 
   if (!otpSent) {
-    alert("Please send OTP before registering.");
+    showNotificationWithDelay("Please send OTP before registering.", 1000);
     return;
   }
 
-  // Rest of the registration code
+
 }
 
 sendBtn.addEventListener('click', otp);

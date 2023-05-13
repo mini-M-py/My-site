@@ -49,7 +49,6 @@ function submit(token) {
         content: content,
         published: published
     };
-    console.log(post)
 
     // Perform any necessary AJAX request to submit the post data
     // Example using Fetch API
@@ -64,7 +63,7 @@ function submit(token) {
         .then(response => {
             if (response.ok) {
                 // Post submitted successfully
-                console.log("Post submitted successfully");
+                showNotificationWithDelay("post submitted successfully!!", 1000)
                 // Reset the form inputs
                 document.getElementById("postTitle").value = "";
                 document.getElementById("postContent").value = "";

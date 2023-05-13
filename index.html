@@ -2,39 +2,74 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>miniMedia</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <script src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>miniMedia</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script src="script.js"></script>
 </head>
 
 <body>
-    <div class="notification">
-        <p id="message">This is a floating notification bar</p>
+  <div class="notification">
+    <p id="message">This is a floating notification bar</p>
+  </div>
+  <div class="topnav">
+
+    <div class="top"><a href="#">miniMedia</a></div>
+
+    <div class="search-container">
+      <form role="search">
+        <input type="search" id="query" placeholder="search.." name="q">
+      </form>
     </div>
-    <div class="topnav">
-
-        <div class="top"><a href="#">miniMedia</a></div>
-
-        <div class="search-container">
-            <form role="search">
-                <input type="search" id="query" placeholder="search.." name="q">
-            </form>
-        </div>
+  </div>
+  <hr>
+  <div class="dropdown">
+    <button class="dropbtn">
+      <img src="images/menu.png" width="20px" height="20px">
+    </button>
+    <div class="dropdown-content">
+      <button id="createPostBtn" onclick="showPopup()">Create Post</button>
+      <button>My profile</button>
+      <button>Log out</button>
     </div>
-    <hr>
+  </div>
 
-    <div id="section">
+  <div id="popupBackground">
+    <div id="popupContent">
+      <h2>Create a Post</h2>
 
-    
 
+
+      <label for="postTitle">Title:</label>
+      <input type="text" id="postTitle" name="title">
+
+      <label for="postContent" name="content">Content:</label>
+      <textarea id="postContent"></textarea>
+
+      <label for="postPrivacy">Post Privacy:</label>
+      <select id="postPrivacy">
+        <option value="public" class="privacy">Public</option>
+        <option value="private" class="privacy">Private</option>
+      </select>
+      <br>
+      <div class="postSubmit">
+        <button id="submitPost" onclick="submit(token)">Submit</button>
+        <button id="cancelPost" onclick="cancel()">Cancel</button>
+      </div>
     </div>
-    <script>       
-            const token = localStorage.getItem('token')
-            home(token);
-    </script>
+  </div>
+
+  <div id="section">
+
+
+
+  </div>
+  <script>
+    const token = localStorage.getItem('token')
+    home(token);
+  </script>
 </body>
 
 </html>

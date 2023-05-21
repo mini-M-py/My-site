@@ -2,7 +2,15 @@
 const notification = document.querySelector('.notification');
 const message = document.querySelector('#message');
 let timerId;
-
+// Function to show the loading overlay
+function showLoadingOverlay() {
+    document.getElementById('loading-overlay').style.display = 'flex';
+}
+  
+  // Function to hide the loading overlay
+function hideLoadingOverlay() {
+    document.getElementById('loading-overlay').style.display = 'none';
+}
 
 function showNotificationWithDelay(messageText, delay) {
     setTimeout(() => {
@@ -37,6 +45,7 @@ function showPopup() {
 const createPost = document.querySelector("#submitPost")
 
 function submit(token) {
+    showLoadingOverlay()
     var title = document.getElementById("postTitle").value;
     var content = document.getElementById("postContent").value;
     var privacy = document.getElementById("postPrivacy").value;
@@ -74,6 +83,7 @@ function submit(token) {
                 // Post submission failed
                 showNotificationWithDelay("Something Went Wrong, Try again!!!", 1000)
             }
+            hideLoadingOverlay()
         })
         .catch(error => {
             // Error occurred during the request
@@ -91,6 +101,7 @@ function cancel() {
 
 //home
 function home(token) {
+    showLoadingOverlay()
     fetch('https://mini-media.onrender.com/posts/', {
         headers: {
             'Authorization': 'Bearer ' + token,
@@ -106,21 +117,61 @@ function home(token) {
         })
         .then(data => {
             data.forEach(post => {
+                var created_at = extractDateFromTimestamp(post.Post.created_at)
                 const markup =
-                    `<div class="user-post"><h2 class="username"><button>${post.Post.owner.user_name}</button></h2>
-                <h3 class="title">${post.Post.title}</h3>
-                <p class="content">${post.Post.content}</p>
-                </div>`
+                    `<div class="post-card" data-owner-id="user123">
+    
+                    <div id="changePost">
+                      <button id="changeButton"><img src="images/menu(1).png" width="20px" height="20px"></button>
+                      <div id="changes">
+                        <button class="delete-button"><img src="images/delete.png" height="15px" width="15px"></button>
+                        <button class="edit-button"><img src="images/edit.png" height="15px" width="15px"></button>
+                      </div>
+                     
+                  </div>
+                    <div class="post-header">
+                      <div class="user-info">
+                        <h3 class="username">${post.Post.owner.user_name}</h3>
+                        <small>Posted on: ${created_at}</small>
+                        
+                      </div>
+                    </div>
+                  
+                    <div class="post-content">
+                      <p class="post-text">${post.Post.title}</p>
+                      <hr>
+                      <p>${post.Post.content}</p>
+                      
+                    </div>
+                    <div class="post-actions">
+                      <button class="like-button" data-post-id = "{post.Post.id}"><img src="images/like.png" height="20px" width="20px"></button>
+                      <button class="comment-button"><img src="images/chat.png" height="20px" width="20px"></button>
+                    </div>
+                  </div>
+                `
 
                 document.querySelector('#section').insertAdjacentHTML('beforeend', markup);
-
+                hideLoadingOverlay()
             })
         })
         .catch(error => console.log(error));
 }
 
+function extractDateFromTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    // Format the date as YYYY-MM-DD
+    const extractedDate = `${year}-${month}-${day}`;
+    
+    return extractedDate;
+}
+  
 
 function registered(event) {
+    showLoadingOverlay()
     const formEl = document.querySelector('.form1');
 
 
@@ -157,15 +208,15 @@ function registered(event) {
             }
         })
             .then(data => {
-                console.log('success')
                 window.location.href = 'login.html';
+                hideLoadingOverlay()
             })
             .catch(error => console.log(error))
     })
 }
 
 function login(event) {
-
+    showLoadingOverlay()
     let formEl = document.querySelector('.form');
 
     formEl.addEventListener('submit', event => {
@@ -185,10 +236,13 @@ function login(event) {
                 } else {
                     showNotificationWithDelay('Invalid eamil and password. Try again!', 1000);
                 }
+                hideLoadingOverlay()
             })
             .catch(error => console.log(error));
+           
     })
-}
+    
+} 
 
 const formEl = document.querySelector('.form1');
 const sendBtn = document.querySelector("#send");
@@ -196,6 +250,7 @@ const otpText = document.querySelector("#otp_text");
 let otpSent = false;
 
 function otp(event) {
+    showLoadingOverlay()
     event.preventDefault();
 
     const user = {
@@ -220,6 +275,7 @@ function otp(event) {
         otpSent = true;
         sendBtn.innerText = "Sent";
         otpText.innerText = "Check your email for the OTP.";
+        hideLoadingOverlay()
     }).catch(error => console.log(error))
 }
 
@@ -231,9 +287,19 @@ function register(event) {
         return;
     }
 
-
 }
+function signup(){
+    window.location.href = 'register.html'
+}
+function logout() {
+    // Delete the token from local storage
+    localStorage.removeItem('token');
+    
+    sessionStorage.clear();
 
+    window.location.href = 'login.html';
+}
+  
 sendBtn.addEventListener('click', otp);
 formEl.addEventListener('submit', register);
-//createPost.addEventListener('click', submit(token));
+

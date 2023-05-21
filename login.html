@@ -10,6 +10,9 @@
 </head>
 
 <body>
+    <div id="loading-overlay">
+        <div class="loading-spinner"></div>
+      </div>
     <div class="notification">
         <p id="message">This is a floating notification bar</p>
     </div>
@@ -17,7 +20,7 @@
         <input type="text" name="username" placeholder="email" >
         <input type="password" name="password" placeholder="password">
         <button type="submit" onclick="login(event)" id="logIn">Signin</button>
-        <button onclick="document.location.href='register.html'">Signup</button>
+        <button onclick="signup()">Signup</button>
     </form>
     <script src="script.js"></script>
 </body>

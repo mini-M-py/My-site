@@ -32,10 +32,13 @@
     <div class="dropdown-content">
       <button id="createPostBtn" onclick="showPopup()">Create Post</button>
       <button>My profile</button>
-      <button>Log out</button>
+      <button onclick="logout()">Log out</button>
     </div>
   </div>
-
+  <div id="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+  
   <div id="popupBackground">
     <div id="popupContent">
       <h2>Create a Post</h2>
